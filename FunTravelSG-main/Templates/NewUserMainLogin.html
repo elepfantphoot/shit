@@ -1,0 +1,33 @@
+{% extends "newuserbase.html" %}
+{% block title %}FunTravelSG - Log In Page{% endblock %}
+
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>This is the login page!</h1>
+<h5>Choose the following to login to your account. If not, you can sign up for a new account!</h5>
+<div style="text-align:center;">
+    <a href="/customerlogin">
+        <button type="button" class="btn btn-primary btn-lg">Customer Log In</button>
+    </a>
+    <a href="/stafflogin">
+        <button type="button" class="btn btn-primary btn-lg">Staff Log In</button>
+    </a>
+    <a href="/newusersignup">
+        <button type="button" class="btn btn-primary btn-lg">Sign Up</button>
+    </a>
+</div>
+
+
+</body>
+</html>
+
+
+{% endblock %}
