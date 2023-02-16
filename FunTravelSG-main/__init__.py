@@ -1,4 +1,4 @@
-from Forms import CreateReminderForm, transactionform, PackageForm, key_info
+from Forms import CreateReminderForm, transactionform, PackageForm, CustomerKeyInfoForm
 from flask import *
 import Reminder, transactions, key_info
 import shelve
@@ -86,41 +86,55 @@ def create_transaction():
 
 @app.route('/CustomerCart')
 def Customer_Cart():
-    key_info_dict = {}
-    db = shelve.open('key_info.db', 'r')
-    key_info_dict = db['key_info']
-    db.close()
+    key_info_dict = {}   
+    try:
+        db = shelve.open('key_info.db', 'r')
+        if 'key_info' in db:             
+            key_info_dict = db['key_info']
+        else:
+            db['key_info'] = key_info_dict
+    except:
+        print("Error in retrieving key_info from key_info.db.")
 
     key_info_list = []
     for key in key_info_dict:
-        reminder = key_info_dict.get(key)
-        key_info_list.append(key_info)
+        #reminder = key_info_dict.get(key)
+        key_info_list.append(key_info_dict[key])
+
+    db.close()   
 
     return render_template('CustomerCart.html', count=len(key_info_list), key_info_list=key_info_list)
 
+@app.route('/CustomerPackagePicker')
+def Customer_Package_Picker():
+
+    return render_template('CustomerPackagePicker.html')
 
 @app.route('/CustomerKeyInInformation', methods=['GET', 'POST'])
-def key_info():
-    Createinfo = key_info(request.form)
+def Customer_Key_In_Information():
+    Createinfo = CustomerKeyInfoForm(request.form)
     if request.method == 'POST' and Createinfo.validate():
         key_info_dict = {}
         db = shelve.open('key_info.db', 'c')
-
+        
         try:
-            key_info_dict = db['key_info']
+            if 'key_info' in db:             
+                key_info_dict = db['key_info']
+            else:
+                db['key_info'] = key_info_dict
         except:
             print("Error in retrieving key_info from key_info.db.")
 
-        info = key_info.key_info(key_info.Infant.data,
-                                 key_info.Child.data,
-                                 key_info.Adult.data)
-        key_info_dict[key_info.get_key_info_id()] = info
-        db['package'] = key_info_dict
+        info = key_info.key_info(Createinfo.Adult.data, Createinfo.Child.data, Createinfo.Infant.data)
+        print(info.get_key_info_id)
+        key_info_dict[info.get_key_info_id()] = info
 
+        db['key_info'] = key_info_dict
         db.close()
 
-        return redirect(url_for('Staff_Package_Picker'))
-    return render_template('StaffPackageCreator.html', form=Createinfo)
+        return redirect(url_for('Customer_Cart'))
+
+    return render_template('CustomerKeyInInformation.html', form=Createinfo)
 
 
 @app.route('/CustomerAboutUs')

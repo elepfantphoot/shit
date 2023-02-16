@@ -69,10 +69,10 @@ class transactionform(Form):
     remember_card = BooleanField("Remember card")
 
 
-class key_info(Form):
-    Adult = IntegerField("Adult <br> (12yrs and above)", [validators.NumberRange(min=1, max=3)], default=1)
-    Child = IntegerField("Child <br> (12yrs and below)", [validators.NumberRange(max=2)])
-    Infant = IntegerField("Infant <br> (below 2yrs)", [validators.NumberRange(max=2)])
+class CustomerKeyInfoForm(Form):
+    Adult = IntegerField("(12yrs and above)", [validators.NumberRange(min=1, max=3)], default=1)
+    Child = IntegerField("(12yrs and below)", [validators.NumberRange(max=2)])
+    Infant = IntegerField("(below 2yrs)", [validators.NumberRange(max=2)])
 
 
 class PackageForm(Form):
