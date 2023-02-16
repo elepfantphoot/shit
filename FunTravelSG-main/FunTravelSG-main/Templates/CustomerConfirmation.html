@@ -1,0 +1,37 @@
+{% extends "customerbase.html" %}
+{% block title %}FunTravelSG (Staff) - Customer Database{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center;">Confirmation page</h1>
+<div>
+    <table class="table table-dark table-bordered" style="text-align: center;">
+        <tr>
+            <td>Fare</td>
+            <td>Quantity</td>
+            <td>(SGD)</td>
+        </tr>
+        <tr>
+            <td>Adult(s)</td>
+            <td>{{ key_info.get_adult() }}</td>
+            <td>{{key_info.get_adult()*2088}}</td>
+        </tr>
+        <tr>
+            <td>Child(ren)</td>
+            <td>{{ key_info.get_child() }}</td>
+            <td>{{key_info.get_child()*1928}}</td>
+        </tr>
+        <tr>
+            <td>Infant(s)</td>
+            <td>{{ key_info.get_infant() }}</td>
+            <td>{{key_info.get_infant()}}</td>
+        </tr>
+        <tr>
+            <td>Total:</td>
+            <td>{{""}}</td>
+            <td>{{key_info.get_adult()*2088+key_info.get_child()*1928+key_info.get_infant()}}</td>
+        </tr>
+    </table>
+  <a href="/CustomerHome"><button type="button" class="btn btn-primary btn-lg create-entry-button">Confirm</button></a>
+</div>
+
+{% endblock %}

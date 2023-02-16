@@ -1,0 +1,28 @@
+{% extends "customerbase.html" %}
+{% block title %}FunTravelSG - Customer Log In Page{% endblock %}
+
+{% block content %}
+
+{% from "includes/_formHelper.html" import render_field %}
+
+<h1 class="display-4">Key in your information</h1>
+"info form"
+<p>Click over here for your transaction</p>
+<form action="" method="POST">
+    <div class="form-group">
+        <label>Adult</label><br>
+        {{ render_field(form.Adult, class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label>Child</label><br>
+        {{ render_field(form.Child, class="form-control") }}
+    </div>
+    <div class="form-group">
+        <label>Infant</label><br>
+        {{ render_field(form.Infant, class="form-control") }}
+    </div>
+    <a href="">
+        <input type="submit" class="btn btn-primary btn-lg" value="Check Price">
+</a>
+
+{% endblock %}

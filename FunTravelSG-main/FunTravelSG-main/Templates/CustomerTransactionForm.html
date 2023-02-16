@@ -1,0 +1,29 @@
+{% extends "customerbase.html" %}
+{% block title %}FunTravelSG - Customer Log In Page{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<form action="" method="POST">
+    <div class="form-group">
+        {{ render_field(form.card_name, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.card_number, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.expiry, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.cvc, class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.default_card, class="render_field()") }}
+    </div>
+    <div class="form-group">
+        {{ render_field(form.remember_card, class="render_field()") }}
+    </div>
+    <a href="/CustomerConfirmation">
+    <input class="btn btn-primary" type="submit" value="Submit"/>
+        </a>
+</form>
+{% endblock %}

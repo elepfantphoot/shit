@@ -1,0 +1,44 @@
+
+{% extends "customerbase.html" %}
+{% block title %}Fun Travel SG - Cart{% endblock %}
+
+{% block content %}
+<link rel="icon" type="image/x-icon" href="../static/travel-icon.png"> <!-- Icon. Change the path (href) if placed in a different folder. -->
+<h1 class="display-4">Cart</h1>
+<p>This is your cart!</p>
+
+    <div>
+        <table>
+            <th>
+                <tr>
+                    <th>Adult(s)</th>
+                    <th>Children(s)</th>
+                    <th>Infant(s)</th>
+                </tr>
+            </th>
+            <tbody>
+                {% if count > 0 %}
+                {% for info in key_info_list %}
+                <tr>
+                    <td>{{ info.get_adult() }}</td>
+                    <td>{{ info.get_child() }}</td>
+                    <td>{{ info.get_infant() }}</td>
+                </tr>
+                {% endfor %}
+
+                {% else %}
+
+                <h2>Cart is Empty!</h2>
+
+                {% endif %}
+            </tbody>
+
+        </table>
+    </div>
+
+    {% if count > 0 %}
+    <a href="/CustomerTransactionForm">
+        <button type="button" class="btn btn-primary btn-lg">Proceed To Payment</button>
+    </a>
+    {% endif %}
+{% endblock %}
