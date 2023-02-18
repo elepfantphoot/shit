@@ -3,20 +3,32 @@ from wtforms.validators import InputRequired, EqualTo, NumberRange, Length, Vali
 from wtforms.fields import EmailField, DateField, PasswordField, IntegerField, Field
 from datetime import datetime
 from wtforms.validators import ValidationError
+from datetime import datetime, date
 
 
 def date_cannot_be_in_the_past(form, field):
     if field.data and field.data < datetime.utcnow():
-        raise ValidationError('Date cannot be in the past')
-
-# def number_only(form, field):
-#    if not field.data.isdigit():
-#        raise ValidationError("This field must contain numbers only.")
+       raise ValidationError('Date cannot be in the past')
 
 
-# def letters_only(form, field):
-#    if field.data.isdigit():
-#        raise ValidationError("This field must contain letters only.")
+def number_only(form, field):
+    for i in range(len(field.data)):
+        if (field.data)[i].isalpha():
+            raise ValidationError('Field must be integer')
+
+
+def letter_only(form, field):
+    for i in range(len(field.data)):
+        if not (field.data)[i].isalpha():
+            raise ValidationError('Field must be letter')
+
+
+# def date_check(form, field):
+#     for i in range(len(field.data)):
+#         if(field.data)[i].isalpha():
+#             raise ValidationError('Field must be integer')
+#     if (int(field.data[0:2]) < month and int(field.data[2:1]) <= year) or int(field.data[2:1]) < year or int(field.data[0:2]) > 12 :
+#         raise ValidationError('card has expired')
 
 
 class CreateReminderForm(Form):
@@ -61,30 +73,26 @@ class CreateCustomerForm(Form):
 
 
 class transactionform(Form):
-    card_name = StringField("Card Holder's name", [validators.Length(min=1, max=150), validators.DataRequired(), ]) # letters_only
-    card_number = StringField('Card Number', [validators.Length(min=16, max=16), validators.DataRequired(), ]) # number_only
-    expiry = StringField('Expiry Date', [validators.Length(min=4, max=4), validators.DataRequired(), ]) # number_only
-    cvc = StringField('CVC/CVV', [validators.Length(min=3, max=3), validators.DataRequired(), ]) # number_only
+    card_name = StringField("Card Holder's name", [validators.Length(min=1, max=150), validators.DataRequired(), letter_only])
+    card_number = StringField('Card Number', [validators.Length(min=16, max=16), validators.DataRequired(), number_only])
+    expiry = StringField('Expiry Date', [validators.Length(min=4, max=4), validators.DataRequired()]) # date_check
+    cvc = StringField('CVC/CVV', [validators.Length(min=3, max=3), validators.DataRequired(), number_only])
     default_card = BooleanField("Set as default card")
     remember_card = BooleanField("Remember card")
 
 
 class CustomerKeyInfoForm(Form):
     Adult = IntegerField("(12yrs and above)", [validators.NumberRange(min=1, max=3)], default=1)
-    Child = IntegerField("(12yrs and below)", [validators.NumberRange(max=2)])
-    Infant = IntegerField("(below 2yrs)", [validators.NumberRange(max=2)])
+    Child = IntegerField("(12yrs and below)", [validators.NumberRange(max=2)], default=0)
+    Infant = IntegerField("(below 2yrs)", [validators.NumberRange(max=2)], default=0)
 
 
 class PackageForm(Form):
     Departure = DateTimeField("Departure Date:", validators=[date_cannot_be_in_the_past])
     Return = DateTimeField("Return Date:", validators=[date_cannot_be_in_the_past])
     Duration = StringField("Length of Trip:", [validators.length(min=4, max=4)])
-    Destination = StringField("Destination:")  # letters_only
-    Airline = StringField("Chosen Airline:")  # letters_only
-    Adult_price = IntegerField("Adult Price:")  # number_only
-    Child_price = IntegerField("Child Price:")  # number_only
-    Infant_price = IntegerField("Infant Price:")  # number_only
-
-
-
-
+    Destination = StringField("Destination:", [validators.length(min=1, max=150), letter_only])
+    Airline = StringField("Chosen Airline:", [letter_only])
+    Adult_price = IntegerField("Adult Price:")
+    Child_price = IntegerField("Child Price:")
+    Infant_price = IntegerField("Infant Price:")

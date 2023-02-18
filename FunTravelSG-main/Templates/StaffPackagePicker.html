@@ -1,25 +1,10 @@
-{% extends "staffbase.html" %}
-{% block title %}FunTravelSG - Staff Package Picker{% endblock %}
+{% extends "customerbase.html" %}
+{% block title %}Fun Travel SG - Packages{% endblock %}
 
 {% block content %}
-<head>
-    <style>
-/* unvisited link */
-a:link {
-color: #515A5A;
-background-color: transparent;
-text-decoration: none;
-}
+<link rel="icon" type="image/x-icon" href="../static/travel-icon.png"> <!-- Icon. Change the path (href) if placed in a different folder. -->
+<h1 class="display-4">Packages</h1>
+<p>This is the Packages Page!</p>
 
-/* mouse over link */
-a:hover {
-  color: #0E6655;
-}
-
-
-    </style>
-</head>
-<h1 class="display-4" style="text-align:center">Staff Package Picker</h1>
-
-<a href="/StaffPackageEditor"<i aria-hidden="true" class="fa fa-plus fa-3x" style="float:right"></i></a>
+<!-- Temporary Redirect button to Key In Information Page -->
 {% endblock %}

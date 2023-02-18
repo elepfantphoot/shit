@@ -12,23 +12,23 @@
         </tr>
         <tr>
             <td>Adult(s)</td>
-            <td>{{ key_info.get_adult() }}</td>
-            <td>{{key_info.get_adult()*2088}}</td>
+            <td>{{ info.get_adult() }}</td>
+            <td>{{ info.get_adult()*2088}}</td>
         </tr>
         <tr>
             <td>Child(ren)</td>
-            <td>{{ key_info.get_child() }}</td>
-            <td>{{key_info.get_child()*1928}}</td>
+            <td>{{ info.get_child() }}</td>
+            <td>{{ info.get_child()*1928}}</td>
         </tr>
         <tr>
             <td>Infant(s)</td>
-            <td>{{ key_info.get_infant() }}</td>
-            <td>{{key_info.get_infant()}}</td>
+            <td>{{ info.get_infant() }}</td>
+            <td>{{ info.get_infant()}}</td>
         </tr>
         <tr>
             <td>Total:</td>
             <td>{{""}}</td>
-            <td>{{key_info.get_adult()*2088+key_info.get_child()*1928+key_info.get_infant()}}</td>
+            <td>{{ info.get_adult()*2088+info.get_child()*1928+info.get_infant()}}</td>
         </tr>
     </table>
   <a href="/CustomerHome"><button type="button" class="btn btn-primary btn-lg create-entry-button">Confirm</button></a>

@@ -31,4 +31,3 @@ class key_info:
 
     def set_infant(self, infant):
         self.__infant = infant
-

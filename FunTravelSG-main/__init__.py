@@ -24,7 +24,24 @@ def New_User_About_Us():
 
 @app.route('/CustomerConfirmation')
 def confirmation():
-    return render_template('CustomerConfirmation.html')
+    key_info_dict = {}
+    try:
+        db = shelve.open('key_info.db', 'r')
+        if 'key_info' in db:
+            key_info_dict = db['key_info']
+        else:
+            db['key_info'] = key_info_dict
+    except:
+        print("Error in retrieving key_info from key_info.db.")
+
+    key_info_list = []
+    for key in key_info_dict:
+        #reminder = key_info_dict.get(key)
+        key_info_list.append(key_info_dict[key])
+
+    db.close()
+
+    return render_template('CustomerConfirmation.html', count=len(key_info_list), key_info_list=key_info_list)
 
 
 @app.route('/NewUserEmail')
@@ -62,34 +79,38 @@ def customer_home():
     return render_template('CustomerHome.html')
 
 
-@app.route('/createTransaction', methods=['GET', 'POST'])
+@app.route('/CustomerTransactionForm', methods=['GET', 'POST'])
 def create_transaction():
     CreateTransactionForm = transactionform(request.form)
     if request.method == 'POST' and CreateTransactionForm.validate():
-        transaction_dict = {}
+        transactions_dict = {}
         db = shelve.open('transactions.db', 'c')
 
         try:
-            transactions_dict = db['transactions']
+            if 'transaction' in db:
+                transaction_dict = db['transaction']
+            else:
+                db['transaction'] = transactions_dict
         except:
             print("Error in retrieving transactions from transactions.db.")
 
-        transaction = transactions.transactions(CreateTransactionForm.card_name.data, CreateTransactionForm.card_number.data, CreateTransactionForm.expiry.data, CreateTransactionForm.cvc.data, CreateTransactionForm.default_card.data, CreateTransactionForm.remeber_card.data)
+        transaction = transactions.transactions(CreateTransactionForm.card_name.data, CreateTransactionForm.card_number.data, CreateTransactionForm.expiry.data, CreateTransactionForm.cvc.data, CreateTransactionForm.default_card.data, CreateTransactionForm.remember_card.data)
+        print(transaction.get_transaction_id())
         transactions_dict[transaction.get_transaction_id()] = transaction
-        db['Transaction'] = transactions_dict
 
+        db['Transaction'] = transactions_dict
         db.close()
 
-        return redirect(url_for('retrieve_Transaction'))
+        return redirect(url_for('confirmation'))
     return render_template('CustomerTransactionForm.html', form=CreateTransactionForm)
 
 
 @app.route('/CustomerCart')
 def Customer_Cart():
-    key_info_dict = {}   
+    key_info_dict = {}
     try:
         db = shelve.open('key_info.db', 'r')
-        if 'key_info' in db:             
+        if 'key_info' in db:
             key_info_dict = db['key_info']
         else:
             db['key_info'] = key_info_dict
@@ -101,14 +122,16 @@ def Customer_Cart():
         #reminder = key_info_dict.get(key)
         key_info_list.append(key_info_dict[key])
 
-    db.close()   
+    db.close()
 
     return render_template('CustomerCart.html', count=len(key_info_list), key_info_list=key_info_list)
+
 
 @app.route('/CustomerPackagePicker')
 def Customer_Package_Picker():
 
     return render_template('CustomerPackagePicker.html')
+
 
 @app.route('/CustomerKeyInInformation', methods=['GET', 'POST'])
 def Customer_Key_In_Information():
@@ -116,9 +139,9 @@ def Customer_Key_In_Information():
     if request.method == 'POST' and Createinfo.validate():
         key_info_dict = {}
         db = shelve.open('key_info.db', 'c')
-        
+
         try:
-            if 'key_info' in db:             
+            if 'key_info' in db:
                 key_info_dict = db['key_info']
             else:
                 db['key_info'] = key_info_dict
@@ -310,3 +333,4 @@ def delete_reminder(id):
 
 if __name__ == '__main__':
     app.run()
+

@@ -2,7 +2,7 @@
 {% block title %}FunTravelSG - Customer Log In Page{% endblock %}
 
 {% block content %}
-
+{% from "includes/_formHelper.html" import render_field %}
 <form action="" method="POST">
     <div class="form-group">
         {{ render_field(form.card_name, class="form-control") }}
@@ -22,7 +22,7 @@
     <div class="form-group">
         {{ render_field(form.remember_card, class="render_field()") }}
     </div>
-    <a href="/CustomerConfirmation">
+    <a href="">
     <input class="btn btn-primary" type="submit" value="Submit"/>
         </a>
 </form>
